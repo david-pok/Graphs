@@ -124,11 +124,12 @@ class Graph:
                 #Mark it as visited...
                 visited.add(v)
                 #Then add a PATH to its neighbors to the back of the queue
-                for neighbor in self.get_neighbors(v):
+                # for neighbor in self.get_neighbors(v):
+                for next_v in self.vertices[v]:
                     #copy the PATH
                     path_copy = path.copy()
                     #append the neighbor to the back
-                    path_copy.append(neighbor)
+                    path_copy.append(next_v)
                     q.enqueue(path_copy)
         #if nothing is found, return None
         return None
