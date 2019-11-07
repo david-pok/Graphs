@@ -38,7 +38,7 @@ class Queue():
     def size(self):
         return len(self.queue)
 
-arr = [(1, 3), (2, 3), (3, 6), (5, 6), (5, 7), (4, 5), (4, 8), (8, 9), (11, 8), (10, 1)]
+# arr = [(1, 3), (2, 3), (3, 6), (5, 6), (5, 7), (4, 5), (4, 8), (8, 9), (11, 8), (10, 1)]
 #(parent, child)
 def earliest_ancestor(ancestors, starting_node):
     g = Graph()
@@ -79,7 +79,7 @@ def earliest_ancestor(ancestors, starting_node):
     return -1
 
 #return smallest ancestor, if multiple
-earliest_ancestor(arr, 1)
+# earliest_ancestor(arr, 1)
 
 #  10
 #  /
