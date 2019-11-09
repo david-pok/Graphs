@@ -11,6 +11,19 @@ class Stack():
     def size(self):
         return len(self.stack)
 
+class Queue():
+    def __init__(self):
+        self.queue = []
+    def enqueue(self, value):
+        self.queue.append(value)
+    def dequeue(self):
+        if self.size() > 0:
+            return self.queue.pop(0)
+        else:
+            return None
+    def size(self):
+        return len(self.queue)
+
 from room import Room
 from player import Player
 from world import World
@@ -45,32 +58,77 @@ cur_room = player.currentRoom
 
 visited = {}
 
+def bfs(self, starting_vertex, destination_vertex):
+    q = Queue()
+    q.enqueue([starting_vertex])
+    visited = set()
+    while q.size() > 0:
+        path = q.dequeue()
+        v = path[-1]
+        if v not in visited:
+            if v == destination_vertex:
+                return path
+            visited.add(v)
+            for next_v in self.vertices[v]:
+                path_copy = path.copy()
+                path_copy.append(next_v)
+                q.enqueue(path_copy)
+        return None
+
 s = Stack()
 s.push([cur_room.id])
+# print(s)
 while s.size() > 0:
     path = s.pop()
+    # print(path)
     v = path[-1]
     if v not in visited:
-        visited[v] = path
-        for neighbors in cur_room.getExits():
-            # print("NEIGH>>>>>>", neighbors)
-            if neighbors == 'n':
-                path_copy = path.copy()
-                path_copy.append(neighbors)
-                s.push(path_copy)
-            if neighbors == 'e':
-                path_copy = path.copy()
-                path_copy.append(neighbors)
-                s.push(path_copy)
-            if neighbors == 's':
-                path_copy = path.copy()
-                path_copy.append(neighbors)
-                s.push(path_copy)
-            if neighbors == 'w':
-                path_copy = path.copy()
-                path_copy.append(neighbors)
-                s.push(path_copy)
-print('VISITED', visited)
+        visited[v] = { i : '?' for i in cur_room.getExits()}
+        for exits in visited[v]:
+            print('CURRENT>>>>', cur_room.id)
+            # print('EXITS>>>', exits)
+            # print('VALUE>>>>', visited[v]['n'])
+            # print('DIRECTION>>>>', cur_room)
+            if visited[v][exits] == '?':
+                if cur_room.n_to:
+                    if cur_room.n_to.id not in visited:
+                        traversalPath.append('n')
+                        cur_room = cur_room.n_to
+                        print('CURRENT>>>>', cur_room.id)
+                        s.push([cur_room.id])
+                        visited[v][exits] = True
+                        print("VISITED>>>>>", visited)
+                elif cur_room.e_to:
+                    if cur_room.e_to.id not in visited:
+                        traversalPath.append('e')
+                        cur_room = cur_room.e_to
+                        print('CURRENT>>>>', cur_room.id)
+                        s.push([cur_room.id])
+                        visited[v][exits] = True
+                        print("VISITED>>>>>", visited)
+                elif cur_room.s_to:
+                    if cur_room.s_to.id not in visited:
+                        traversalPath.append('s')
+                        cur_room = cur_room.s_to
+                        print('CURRENT>>>>', cur_room.id)
+                        s.push([cur_room.id])
+                        visited[v][exits] = True
+                        print("VISITED>>>>>", visited)
+                elif cur_room.w_to:
+                    if cur_room.w_to.id not in visited:
+                        traversalPath.append('w')
+                        cur_room = cur_room.w_to
+                        print('CURRENT>>>>', cur_room.id)
+                        s.push([cur_room.id])
+                        visited[v][exits] = True
+                        print("VISITED>>>>>", visited)
+                else:
+                    visited[v][exits] = False
+# print(cur_room.id)
+print("VISITED>>>>>", visited)
+# print(s.stack)
+print('PATH>>>>>>>>', traversalPath)
+#after reaching dead end use bfs to go back to another visited room with an unvisited exit
 
 
 # TRAVERSAL TEST
