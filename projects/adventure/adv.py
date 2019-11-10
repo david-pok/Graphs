@@ -1,3 +1,29 @@
+class Stack():
+    def __init__(self):
+        self.stack = []
+    def push(self, value):
+        self.stack.append(value)
+    def pop(self):
+        if self.size() > 0:
+            return self.stack.pop()
+        else:
+            return None
+    def size(self):
+        return len(self.stack)
+
+class Queue():
+    def __init__(self):
+        self.queue = []
+    def enqueue(self, value):
+        self.queue.append(value)
+    def dequeue(self):
+        if self.size() > 0:
+            return self.queue.pop(0)
+        else:
+            return None
+    def size(self):
+        return len(self.queue)
+
 from room import Room
 from player import Player
 from world import World
@@ -22,9 +48,34 @@ world.printRooms()
 player = Player("Name", world.startingRoom)
 
 # Fill this out
+
 traversalPath = []
 
+visited = {}
+path = []
+reversed_dir = {'n':'s', 's':'n', 'e':'w', 'w':'e'}
 
+visited[player.currentRoom.id] = player.currentRoom.getExits()
+# print('VISITED',visited)
+# print('PATH',path)
+while len(visited) < len(roomGraph) - 1:
+    if player.currentRoom.id not in visited:
+        visited[player.currentRoom.id] = player.currentRoom.getExits()
+        previous_dir = path[-1]
+        visited[player.currentRoom.id].remove(previous_dir)
+        # print('1stVISITED',visited)
+        # print('1stPATH',path)
+
+    while len(visited[player.currentRoom.id]) == 0:
+        previous_dir = path.pop()
+        traversalPath.append(previous_dir)
+        player.travel(previous_dir)
+        # print('2ndVISITE',visited)
+        # print('2ndPATH',path)
+    move = visited[player.currentRoom.id].pop(0)
+    traversalPath.append(move)
+    path.append(reversed_dir[move])
+    player.travel(move)
 
 # TRAVERSAL TEST
 visited_rooms = set()
